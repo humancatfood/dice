@@ -48,6 +48,15 @@ test('diceCount should default to 1', () => {
   testRolls([100], result => checkResult(result, 1, 100, 0));
 });
 
+
+test('faceCount should default to 6', () => {
+  testRolls([], result => checkResult(result, 1, 6, 0));
+  testRolls([], result => checkResult(result, 1, 6, 0));
+  testRolls([], result => checkResult(result, 1, 6, 0));
+});
+
+
+
 function testRolls (args, cb)
 {
   [

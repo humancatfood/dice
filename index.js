@@ -56,13 +56,22 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
       modifier: modifier || 0
     };
   }
-  else
+  else if (diceFacesOrNotation)
   {
     return {
       diceCount: 1,
       faceCount: diceFacesOrNotation,
       modifier: 0
     };
+  }
+  else
+  {
+    return {
+      diceCount: 1,
+      faceCount: 6,
+      modifier: 0
+    };
+
   }
 }
 
