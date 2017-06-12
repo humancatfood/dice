@@ -15,11 +15,39 @@ test('modules should be importable', () => {
 test('createRoller should create a roller', () =>{
 
   const roller = createRoller('1d6');
-
   expect(roller).toBeDefined();
   expect(typeof roller).toBe('function');
   expect(typeof roller.toDiceNotation).toBe('function');
   expect(typeof roller.toDiceNotation()).toBe('string');
+
+});
+
+
+test('createRoller().toDiceNotation should work', () =>{
+
+  // normal
+  test([1, 6, 0], '1d6');
+  test([3, 6, 10], '3d6+10');
+  test([3, 6, 4], '3d6+4');
+  test([2, 6, -1], '2d6-1');
+  test([2, 6, -3], '2d6-3');
+
+  // default modifier
+  test([2, 6], '2d6');
+  test([3, 12], '3d12');
+
+  // default diceCount
+  test([36], '1d36');
+  test([12], '1d12');
+
+  // default faceCount
+  test([], '1d6');
+
+  function test(args, str)
+  {
+    const roller = createRoller.apply(createRoller, args);
+    expect(roller.toDiceNotation()).toBe(str);
+  }
 
 });
 
