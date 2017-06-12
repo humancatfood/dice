@@ -4,6 +4,10 @@ module.exports = {
 };
 
 
+
+var DICE_NOTATION_REGEX = new RegExp(/^(\d*)d(\d*)(\+|-)*(\d*)$/, 'i');
+
+
 function roll (diceFacesOrNotation, faceCount, modifier)
 {
   var args = _parseArgs(diceFacesOrNotation, faceCount, modifier);
@@ -48,6 +52,15 @@ function _innerRoll (args)
 
 function _parseArgs (diceFacesOrNotation, faceCount, modifier)
 {
+  var match = DICE_NOTATION_REGEX.exec(diceFacesOrNotation);
+
+  if (match)
+  {
+    diceFacesOrNotation = match[1] || 1;
+    faceCount = match[2] || 6;
+    modifier = parseInt(match[3] + match[4], 10);
+  }
+
   if (faceCount)
   {
     return {
@@ -71,7 +84,6 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
       faceCount: 6,
       modifier: 0
     };
-
   }
 }
 
