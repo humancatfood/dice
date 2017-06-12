@@ -21,46 +21,37 @@ test('createRoller should create a roller', () =>{
   expect(typeof roller.toDiceNotation).toBe('function');
   expect(typeof roller.toDiceNotation()).toBe('string');
 
-
 });
 
 
 test('simple rolls should work', () => {
+  testRolls([1, 6, 0], result => checkResult(result, 1, 6, 0));
+  testRolls([6, 6, 0], result => checkResult(result, 6, 6, 0));
+  testRolls([100, 2, 0], result => checkResult(result, 100, 2, 0));
+});
 
-  const numDice = 1;
-  const numFaces = 6;
-  const modifier = 0;
+test('modifiers should be added to the result', () => {
+  testRolls([1, 6, 50], result => checkResult(result, 1, 6, 50));
+  testRolls([1, 6, -10], result => checkResult(result, 1, 6, -10));
+  testRolls([2, 6, 100], result => checkResult(result, 2, 6, 100));
+});
 
-  const roller = createRoller(numDice, numFaces, modifier);
-
-  const results = [
-    roll(numDice, numFaces, modifier),
-    roller()
-  ];
-
-  results.forEach(result => {
-    expect(result).toBeGreaterThanOrEqual(numDice * 1);
-    expect(result).toBeLessThanOrEqual(numDice * numFaces);
-  });
-
+test('modifiers should default to 0', () => {
+  testRolls([4, 8], result => checkResult(result, 4, 8, 0));
+  testRolls([1, 10], result => checkResult(result, 1, 10, 0));
 });
 
 
-test('modifier should default to 0', () => {
+function testRolls (args, cb)
+{
+  [
+    roll.apply(roll, args),
+    createRoller.apply(createRoller, args)()
+  ].forEach(cb);
+}
 
-  const numDice = 1;
-  const numFaces = 6;
-
-  const roller = createRoller(numDice, numFaces);
-
-  const results = [
-    roll(numDice, numFaces),
-    roller()
-  ];
-
-  results.forEach(result => {
-    expect(result).toBeGreaterThanOrEqual(numDice * 1);
-    expect(result).toBeLessThanOrEqual(numDice * numFaces);
-  });
-
-});
+function checkResult (result, numDice, numFaces, modifier)
+{
+  expect(result).toBeGreaterThanOrEqual(numDice * 1 + modifier);
+  expect(result).toBeLessThanOrEqual(numDice * numFaces + modifier);
+}
