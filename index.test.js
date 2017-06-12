@@ -95,6 +95,8 @@ function testRolls (args, cb)
 
 function checkResult (result, numDice, numFaces, modifier)
 {
+  const isInt = Number.isInteger(result);
+  expect(isInt).toBeTruthy();
   expect(result).toBeGreaterThanOrEqual(numDice * 1 + modifier);
   expect(result).toBeLessThanOrEqual(numDice * numFaces + modifier);
 }
