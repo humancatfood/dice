@@ -2,6 +2,7 @@ import { roll, createRoller } from './index';
 
 
 
+
 test('modules should be importable', () => {
 
   expect(roll).toBeDefined();
@@ -52,6 +53,28 @@ test('createRoller().toDiceNotation should work', () => {
 });
 
 
+test('it should throw errors for invalid arguments', () => {
+
+  testErrors([-10], /zero or a negative number of faces/i);
+  testErrors([-100], /zero or a negative number of faces/i);
+  testErrors([-10, 10], /zero or a negative number of dice/i);
+  testErrors([10, -10], /zero or a negative number of faces/i);
+  testErrors([-10, 10, 5], /zero or a negative number of dice/i);
+  testErrors([10, -10, -5], /zero or a negative number of faces/i);
+  testErrors(['-4d20'], /arguments/i);
+  testErrors(['1f20+10'], /arguments/i);
+  testErrors(['123-5'], /arguments/i);
+  testErrors(['blabla'], /arguments/i);
+  testErrors([2, 'blabla'], /arguments/i);
+  testErrors([1, 2, 'blabla'], /arguments/i);
+  testErrors(['blabla', 1], /arguments/i);
+  testErrors(['blabla', 1, 2], /arguments/i);
+
+});
+
+
+
+
 test('simple rolls should work', () => {
   testRolls([1, 6, 0], 1, 6, 0);
   testRolls([6, 6, 0], 6, 6, 0);
@@ -74,6 +97,7 @@ test('modifiers should default to 0', () => {
 
 test('diceCount should default to 1', () => {
   testRolls([4], 1, 4, 0);
+  testRolls([6], 1, 6, 0);
   testRolls([6], 1, 6, 0);
   testRolls([100], 1, 100, 0);
 });
@@ -132,3 +156,11 @@ function testRolls (args, expectedNumDice, expectedNumFaces, expectedModifier)
   });
 
 }
+
+
+function testErrors (args, err)
+{
+  expect(roll.bind(roll, ...args)).toThrow(err);
+  expect(createRoller.bind(createRoller, ...args)).toThrow(err);
+}
+

@@ -60,17 +60,39 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
     faceCount = match[2] || 6;
     modifier = parseInt(match[3] + match[4], 10);
   }
+  else if (typeof diceFacesOrNotation === 'string' ||
+           typeof faceCount === 'string' ||
+           typeof modifier === 'string')
+  {
+    _badArgs([diceFacesOrNotation, faceCount, modifier]);
+  }
+
 
   if (faceCount)
   {
+    if (diceFacesOrNotation < 1)
+    {
+      _noDice();
+    }
+    if (faceCount < 1)
+    {
+      _noFaces();
+    }
+
     return {
       diceCount: diceFacesOrNotation,
       faceCount: faceCount,
       modifier: modifier || 0
     };
+
   }
   else if (diceFacesOrNotation)
   {
+    if (diceFacesOrNotation < 1)
+    {
+      _noFaces();
+    }
+
     return {
       diceCount: 1,
       faceCount: diceFacesOrNotation,
@@ -104,3 +126,16 @@ function _argsToNotation (args)
 }
 
 
+function _noDice ()
+{
+  throw new Error('You cannot roll zero or a negative number of dice!');
+}
+
+function _noFaces () {
+  throw new Error('Dice cannot have zero or a negative number of faces!');
+}
+
+function _badArgs (args) {
+  args.unshift('Bad arguments:');
+  throw new Error(args.join(' '));
+}
