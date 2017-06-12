@@ -53,36 +53,36 @@ test('createRoller().toDiceNotation should work', () => {
 
 
 test('simple rolls should work', () => {
-  testRolls([1, 6, 0], result => checkResult(result, 1, 6, 0));
-  testRolls([6, 6, 0], result => checkResult(result, 6, 6, 0));
-  testRolls([100, 2, 0], result => checkResult(result, 100, 2, 0));
+  testRolls([1, 6, 0], 1, 6, 0);
+  testRolls([6, 6, 0], 6, 6, 0);
+  testRolls([100, 2, 0], 100, 2, 0);
 });
 
 
 test('modifiers should be added to the result', () => {
-  testRolls([1, 6, 50], result => checkResult(result, 1, 6, 50));
-  testRolls([1, 6, -10], result => checkResult(result, 1, 6, -10));
-  testRolls([2, 6, 100], result => checkResult(result, 2, 6, 100));
+  testRolls([1, 6, 50], 1, 6, 50);
+  testRolls([1, 6, -10], 1, 6, -10);
+  testRolls([2, 6, 100], 2, 6, 100);
 });
 
 
 test('modifiers should default to 0', () => {
-  testRolls([4, 8], result => checkResult(result, 4, 8, 0));
-  testRolls([1, 10], result => checkResult(result, 1, 10, 0));
+  testRolls([4, 8], 4, 8, 0);
+  testRolls([1, 10], 1, 10, 0);
 });
 
 
 test('diceCount should default to 1', () => {
-  testRolls([4], result => checkResult(result, 1, 4, 0));
-  testRolls([6], result => checkResult(result, 1, 6, 0));
-  testRolls([100], result => checkResult(result, 1, 100, 0));
+  testRolls([4], 1, 4, 0);
+  testRolls([6], 1, 6, 0);
+  testRolls([100], 1, 100, 0);
 });
 
 
 test('faceCount should default to 6', () => {
-  testRolls([], result => checkResult(result, 1, 6, 0));
-  testRolls([], result => checkResult(result, 1, 6, 0));
-  testRolls([], result => checkResult(result, 1, 6, 0));
+  testRolls([], 1, 6, 0);
+  testRolls([], 1, 6, 0);
+  testRolls([], 1, 6, 0);
 });
 
 
@@ -90,44 +90,45 @@ test('it should understand dice-notation', () => {
 
 
   // normal
-  testRolls(['1d20+1'], result => checkResult(result, 1, 20, 1));
-  testRolls(['4d8+10'], result => checkResult(result, 4, 8, 10));
-  testRolls(['2d8+10'], result => checkResult(result, 2, 8, 10));
-  testRolls(['5d8-10'], result => checkResult(result, 5, 8, -10));
+  testRolls(['1d20+1'], 1, 20, 1);
+  testRolls(['4d8+10'], 4, 8, 10);
+  testRolls(['2d8+10'], 2, 8, 10);
+  testRolls(['5d8-10'], 5, 8, -10);
 
   // default modifier
-  testRolls(['3d18'], result => checkResult(result, 3, 18, 0));
-  testRolls(['10d8'], result => checkResult(result, 10, 8, 0));
-  testRolls(['1d6'], result => checkResult(result, 1, 6, 0));
-  testRolls(['4d10'], result => checkResult(result, 4, 10, 0));
+  testRolls(['3d18'], 3, 18, 0);
+  testRolls(['10d8'], 10, 8, 0);
+  testRolls(['1d6'], 1, 6, 0);
+  testRolls(['4d10'], 4, 10, 0);
 
   // default diceCount
-  testRolls(['d6'], result => checkResult(result, 1, 6, 0));
-  testRolls(['d100'], result => checkResult(result, 1, 100, 0));
-  testRolls(['d5000'], result => checkResult(result, 1, 5000, 0));
-  testRolls(['d2'], result => checkResult(result, 1, 2, 0));
+  testRolls(['d6'], 1, 6, 0);
+  testRolls(['d100'], 1, 100, 0);
+  testRolls(['d5000'], 1, 5000, 0);
+  testRolls(['d2'], 1, 2, 0);
 
   // default faceCount
-  testRolls(['5d'], result => checkResult(result, 5, 6, 0));
-  testRolls(['1000d'], result => checkResult(result, 1000, 6, 0));
-  testRolls(['1d'], result => checkResult(result, 1, 6, 0));
-  testRolls(['50d'], result => checkResult(result, 50, 6, 0));
+  testRolls(['5d'], 5, 6, 0);
+  testRolls(['1000d'], 1000, 6, 0);
+  testRolls(['1d'], 1, 6, 0);
+  testRolls(['50d'], 50, 6, 0);
 
 });
 
 
-function testRolls (args, cb)
+function testRolls (args, expectedNumDice, expectedNumFaces, expectedModifier)
 {
+
   [
     roll.apply(roll, args),
     createRoller.apply(createRoller, args)()
-  ].forEach(cb);
-}
+  ].forEach(result => {
 
-function checkResult (result, numDice, numFaces, modifier)
-{
-  const isInt = Number.isInteger(result);
-  expect(isInt).toBeTruthy();
-  expect(result).toBeGreaterThanOrEqual(numDice * 1 + modifier);
-  expect(result).toBeLessThanOrEqual(numDice * numFaces + modifier);
+    const isInt = Number.isInteger(result);
+    expect(isInt).toBeTruthy();
+    expect(result).toBeGreaterThanOrEqual(expectedNumDice * 1 + expectedModifier);
+    expect(result).toBeLessThanOrEqual(expectedNumDice * expectedNumFaces + expectedModifier);
+
+  });
+
 }
