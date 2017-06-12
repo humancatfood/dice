@@ -42,6 +42,12 @@ test('modifiers should default to 0', () => {
 });
 
 
+test('diceCount should default to 1', () => {
+  testRolls([4], result => checkResult(result, 1, 4, 0));
+  testRolls([6], result => checkResult(result, 1, 6, 0));
+  testRolls([100], result => checkResult(result, 1, 100, 0));
+});
+
 function testRolls (args, cb)
 {
   [

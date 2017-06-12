@@ -48,11 +48,22 @@ function _innerRoll (args)
 
 function _parseArgs (diceFacesOrNotation, faceCount, modifier)
 {
-  return {
-    diceCount: diceFacesOrNotation,
-    faceCount: faceCount,
-    modifier: modifier || 0
-  };
+  if (faceCount)
+  {
+    return {
+      diceCount: diceFacesOrNotation,
+      faceCount: faceCount,
+      modifier: modifier || 0
+    };
+  }
+  else
+  {
+    return {
+      diceCount: 1,
+      faceCount: diceFacesOrNotation,
+      modifier: 0
+    };
+  }
 }
 
 
