@@ -1,0 +1,33 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true,
+    "jest": true
+  },
+  "extends": "eslint:recommended",
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    },
+    "sourceType": "module"
+  },
+  "globals": {
+    "ENV": true
+  },
+  "rules": {
+    "strict": 0,
+
+    "indent": [
+      "error",
+      2,
+      {"SwitchCase": 1}
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
+  }
+}

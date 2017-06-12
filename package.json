@@ -1,0 +1,27 @@
+{
+  "name": "dice",
+  "version": "1.0.0",
+  "description": "Role Playing Game Dice Rolling",
+  "main": "index.js",
+  "author": "Jan Borchers",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:humancatfood/dice.git"
+  },
+  "scripts": {
+    "test": "eslint *.js && jest --coverage",
+    "test:watch": "eslint *.js && jest --coverage --watch"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "eslint": "^4.0.0",
+    "jest-cli": "^20.0.4"
+  }
+  ,
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
