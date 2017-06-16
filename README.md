@@ -1,4 +1,4 @@
-#Role Playing Game Dice Rolling
+# Role Playing Game Dice Rolling
 
 The goal of this exercise is to create a module which implements rolling dice for a role playing game.
 
@@ -31,7 +31,7 @@ When only one number is supplied in either approach: it is the `faceCount`.
 
 
 
-##`roll()`
+## `roll()`
 
 See above for parameters. roll returns a whole number with a valid random sum of the result of a dice roll for the supplied arguments.
 
@@ -41,7 +41,7 @@ See above for parameters. roll returns a whole number with a valid random sum of
 ```
 
 
-##`createRoller()`
+## `createRoller()`
 
 See above for parameters. `createRoller` pre-configures a (set of) dice and returns a function. When this function is called with no arguments it returns a valid random sum of rolling preconfigured dice with any supplied modifier applied.
 
