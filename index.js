@@ -4,8 +4,9 @@ module.exports = {
 };
 
 
-
 var DICE_NOTATION_REGEX = new RegExp(/^(\d*)d(\d*)(\+|-)*(\d*)$/, 'i');
+var NO_DICE_ERROR = 'You cannot roll zero or a negative number of dice!';
+var NO_FACES_ERROR = 'Dice cannot have zero or a negative number of faces!';
 
 
 
@@ -107,7 +108,7 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
            typeof faceCount === 'string' ||
            typeof modifier === 'string')
   {
-    _badArgs([diceFacesOrNotation, faceCount, modifier]);
+    throw new Error(['Bad arguments:', diceFacesOrNotation, faceCount, modifier].join(' '));
   }
 
 
@@ -115,11 +116,11 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
   {
     if (diceFacesOrNotation < 1)
     {
-      _noDice();
+      throw new Error(NO_DICE_ERROR);
     }
     if (faceCount < 1)
     {
-      _noFaces();
+      throw new Error(NO_FACES_ERROR);
     }
 
     return {
@@ -133,7 +134,7 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
   {
     if (diceFacesOrNotation < 1)
     {
-      _noFaces();
+      throw new Error(NO_FACES_ERROR);
     }
 
     return {
@@ -174,19 +175,4 @@ function _argsToNotation (args)
     modifier > 0 ? '+' : '',
     modifier || ''
   ].join('');
-}
-
-
-function _noDice ()
-{
-  throw new Error('You cannot roll zero or a negative number of dice!');
-}
-
-function _noFaces () {
-  throw new Error('Dice cannot have zero or a negative number of faces!');
-}
-
-function _badArgs (args) {
-  args.unshift('Bad arguments:');
-  throw new Error(args.join(' '));
 }
