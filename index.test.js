@@ -70,6 +70,10 @@ test('it should throw errors for invalid arguments', () => {
   testErrors(['blabla', 1], /arguments/i);
   testErrors(['blabla', 1, 2], /arguments/i);
 
+  testErrors([[], 1, 2], /arguments/i);
+  testErrors([[], undefined, {}], /arguments/i);
+  testErrors([null, Math.PI], /arguments/i);
+
 });
 
 

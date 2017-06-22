@@ -108,9 +108,9 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
     faceCount = match[2] || 6;
     modifier = parseInt(match[3] + match[4], 10);
   }
-  else if (typeof diceFacesOrNotation === 'string' ||
-           typeof faceCount === 'string' ||
-           typeof modifier === 'string')
+  else if (diceFacesOrNotation && typeof diceFacesOrNotation !== 'number' ||
+           faceCount && typeof faceCount !== 'number' ||
+           modifier && typeof modifier !== 'number')
   {
     throw new Error(['Bad arguments:', diceFacesOrNotation, faceCount, modifier].join(' '));
   }
