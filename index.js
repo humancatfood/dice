@@ -36,6 +36,7 @@ var NO_FACES_ERROR = 'Dice cannot have zero or a negative number of faces!';
  */
 function roll (diceFacesOrNotation, faceCount, modifier)
 {
+  'use strict';
   var args = _parseArgs(diceFacesOrNotation, faceCount, modifier);
   return _innerRoll(args);
 }
@@ -52,6 +53,7 @@ function roll (diceFacesOrNotation, faceCount, modifier)
  */
 function createRoller (diceFacesOrNotation, faceCount, modifier)
 {
+  'use strict';
 
   var args = _parseArgs(diceFacesOrNotation, faceCount, modifier);
   var notation = _argsToNotation(args);
@@ -75,6 +77,7 @@ function createRoller (diceFacesOrNotation, faceCount, modifier)
  */
 function _innerRoll (args)
 {
+  'use strict';
   var diceCount = args.diceCount;
   var faceCount = args.faceCount;
   var modifier= args.modifier;
@@ -96,6 +99,7 @@ function _innerRoll (args)
  */
 function _parseArgs (diceFacesOrNotation, faceCount, modifier)
 {
+  'use strict';
   var match = DICE_NOTATION_REGEX.exec(diceFacesOrNotation);
 
   if (match)
@@ -164,6 +168,7 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
  */
 function _argsToNotation (args)
 {
+  'use strict';
   var diceCount = args.diceCount;
   var faceCount = args.faceCount;
   var modifier= args.modifier;
