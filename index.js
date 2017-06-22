@@ -28,7 +28,7 @@ var NO_FACES_ERROR = 'Dice cannot have zero or a negative number of faces!';
  * E.g. `'+2'` or `'-5'` (default is 0)
  *
  * @param {String|Number} [diceFacesOrNotation=1] - EITHER the number of dice to roll OR the number of
- * faces-per-die OR a string following dice-notation (eg. '2d12+1')
+ * faces-per-die (defaulting the number of dice to 1) OR a string following dice-notation (eg. '2d12+1')
  * @param {Number} [faceCount=6] - The number of faces-per-die
  * @param {Number} [modifier=0] - A positive or negative number to be added to the dice-throw
  *
@@ -102,12 +102,14 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
   'use strict';
   var match = DICE_NOTATION_REGEX.exec(diceFacesOrNotation);
 
+  // if the first parameter matches the regex, we extract the arguments from the match
   if (match)
   {
     diceFacesOrNotation = match[1] || 1;
     faceCount = match[2] || 6;
     modifier = parseInt(match[3] + match[4], 10);
   }
+  // if there's no match but any of the required params are not numbers, we throw a generic argument error
   else if (diceFacesOrNotation && typeof diceFacesOrNotation !== 'number' ||
            faceCount && typeof faceCount !== 'number' ||
            modifier && typeof modifier !== 'number')
@@ -115,18 +117,21 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
     throw new Error(['Bad arguments:', diceFacesOrNotation, faceCount, modifier].join(' '));
   }
 
-
+  // reverse-ish logic: if we have a face-count, we must have a dice-count ..
   if (faceCount)
   {
     if (diceFacesOrNotation < 1)
     {
+      // .. unless the dice-count is less than one of course!
       throw new Error(NO_DICE_ERROR);
     }
     if (faceCount < 1)
     {
+      // .. and a face-count of less than one is no good either!
       throw new Error(NO_FACES_ERROR);
     }
 
+    // .. but if that is all fine, then this should work
     return {
       diceCount: diceFacesOrNotation,
       faceCount: faceCount,
@@ -134,13 +139,16 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
     };
 
   }
+  // reverse-ish logic again: if we don't have a valid second argument, then this must be the face-count!
   else if (diceFacesOrNotation)
   {
+    // but again, a face-count of less than one is no good!
     if (diceFacesOrNotation < 1)
     {
       throw new Error(NO_FACES_ERROR);
     }
 
+    // .. and here we are!
     return {
       diceCount: 1,
       faceCount: diceFacesOrNotation,
@@ -149,6 +157,7 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
   }
   else
   {
+    // lastly, if we don't have anything, just return the defaults
     return {
       diceCount: 1,
       faceCount: 6,
