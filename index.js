@@ -110,7 +110,8 @@ function _parseArgs (diceFacesOrNotation, faceCount, modifier)
     modifier = parseInt(match[3] + match[4], 10);
   }
   // if there's no match but any of the required params are not numbers, we throw a generic argument error
-  else if (diceFacesOrNotation && typeof diceFacesOrNotation !== 'number' ||
+  else if (diceFacesOrNotation === null ||
+           diceFacesOrNotation && typeof diceFacesOrNotation !== 'number' ||
            faceCount && typeof faceCount !== 'number' ||
            modifier && typeof modifier !== 'number')
   {
