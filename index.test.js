@@ -27,28 +27,22 @@ test('createRoller should create a roller', () => {
 test('createRoller().toDiceNotation should work', () => {
 
   // normal
-  test([1, 6, 0], '1d6');
-  test([3, 6, 10], '3d6+10');
-  test([3, 6, 4], '3d6+4');
-  test([2, 6, -1], '2d6-1');
-  test([2, 6, -3], '2d6-3');
+  testCreateRoller([1, 6, 0], '1d6');
+  testCreateRoller([3, 6, 10], '3d6+10');
+  testCreateRoller([3, 6, 4], '3d6+4');
+  testCreateRoller([2, 6, -1], '2d6-1');
+  testCreateRoller([2, 6, -3], '2d6-3');
 
   // default modifier
-  test([2, 6], '2d6');
-  test([3, 12], '3d12');
+  testCreateRoller([2, 6], '2d6');
+  testCreateRoller([3, 12], '3d12');
 
   // default diceCount
-  test([36], '1d36');
-  test([12], '1d12');
+  testCreateRoller([36], '1d36');
+  testCreateRoller([12], '1d12');
 
   // default faceCount
-  test([], '1d6');
-
-  function test(args, str)
-  {
-    const roller = createRoller.apply(createRoller, args);
-    expect(roller.toDiceNotation()).toBe(str);
-  }
+  testCreateRoller([], '1d6');
 
 });
 
@@ -168,3 +162,9 @@ function testErrors (args, err)
   expect(createRoller.bind(createRoller, ...args)).toThrow(err);
 }
 
+
+function testCreateRoller(args, str)
+{
+  const roller = createRoller.apply(createRoller, args);
+  expect(roller.toDiceNotation()).toBe(str);
+}
