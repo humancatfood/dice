@@ -12,7 +12,7 @@ The string should be of the form `${diceCount}d${faceCount}${modifier}` where:
 
 - `diceCount` is the count of the dice (default is 1)
 - `faceCount` is the count of the faces on the dice (default is 6)
-- `modifier` is an either positive or negative modifier to the result of the roll. The sign is required. E.g. `'+2'` or `'-5'`
+- `modifier` is a positive or negative number to get added to the result of the roll. The sign is required. E.g. `'+2'` or `'-5'`
 
 Some example inputs:
 
@@ -27,7 +27,7 @@ Alternatively it will receive up to 3 number arguments, any extra arguments are 
 - `faceCount` is the count of the faces on the dice (default is 6)
 - `modifier` is an either positive or negative modifier to the result of the roll. The sign is required. E.g. `'+2'` or `'-5'` (default is 0)
 
-When only one number is supplied in either approach: it is the `faceCount`.
+When only one number is supplied in either approach it is the `faceCount`.
 
 
 
